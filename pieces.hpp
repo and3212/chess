@@ -8,12 +8,7 @@
 
 class pieces {
 public:
-    int* pawn();
-    int* rook();
-    int* bishop();
-    int* knight();
-    int* queen();
-    int* king();
+    static void pawn(int board[8][8], int rank, int file, char player);
 };
 
 

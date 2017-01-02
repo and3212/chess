@@ -1,7 +1,6 @@
 /* Author: Liam Lawrence
  * Date: 1.1.17
- *
- * Code for my personal moving chess game
+ * Code for the self-moving chess board
  */
 
 #include <iostream>
@@ -20,13 +19,13 @@ const int king = 6;
 // initializes and 8x8 board to play on
 // [rank][file] == [x][y]
 int board[8][8];
-int tieCounter = 50;
+int tieCounter = 50;    //TODO add a counter where if a pawn isn't moved / a piece isn't captured in 50 turns it is a draw
 
 // Initial setup for a new game
 // Positives are 'white' and negatives are 'black'
 const int startingBoard[8][8] = {rook, knight, bishop, queen, king, bishop, knight, rook,
                                   pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
-                                  0, 0, 0, -knight, 0, 0, 0, 0,
+                                  0, 0, 0, -knight, 0, 0, 0, 0, //TODO remove the -knight from here once done debugging
                                   0, 0, 0, 0, 0, 0, 0, 0,
                                   0, 0, 0, 0, 0, 0, 0, 0,
                                   0, 0, 0, 0, 0, 0, 0, 0,
@@ -41,6 +40,7 @@ void newGame(){ // Sets up the board to the default position
     }
 }
 
+// Prints out the current layout of the board
 void printScreen(int board[8][8]){
     char piece;
 
@@ -101,7 +101,6 @@ int main() {
 
     int newRank;
     int newFile;
-    std::cout << board[1][3] << "\n";
     std::cout << "What piece do you wanna move?: ";
     std::cin >> newRank;
     std::cin >> newFile;
@@ -117,7 +116,7 @@ int main() {
     pieces::rook(board, newRank, newFile, 'b');
     printScreen(board);
 
-
+    //TODO currently if you move the pawn at 6x0 to 4x0, the rook at 7x0 can capture the piece at 4x0 -- fix this
 
     return 0;
 }

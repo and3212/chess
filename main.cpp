@@ -24,23 +24,14 @@ int tieCounter = 50;
 
 // Initial setup for a new game
 // Positives are 'white' and negatives are 'black'
-const int startingBofard[8][8] = {rook, knight, bishop, queen, king, bishop, knight, rook,
-                                 pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
-                                 0, 0, 0, 0, 0, 0, 0, 0,
-                                 0, 0, 0, 0, 0, 0, 0, 0,
-                                 0, 0, 0, 0, 0, 0, 0, 0,
-                                 0, 0, 0, 0, 0, 0, 0, 0,
-                                 -pawn, -pawn, -pawn, -pawn, -pawn, -pawn, -pawn, -pawn,
-                                 -rook, -knight, -bishop, -queen, -king, -bishop, -knight, -rook};
-
-const int startingBoard[8][8] = {rook, pawn, 0, 0, 0, 0, -pawn, -rook,
-                                 knight, pawn, 0, 0, 0, 0, -pawn, -knight,
-                                bishop, pawn, 0, 0, 0, 0, -pawn, -bishop,
-                                 king, pawn, 0, 0, 0, 0, -pawn, -king,
-                                queen, pawn, 0, 0, 0, 0, -pawn, -queen,
-                                bishop, pawn, 0, 0, 0, 0, -pawn, -bishop,
-                                knight, pawn, 0, 0, 0, 0, -pawn, -knight,
-                                rook, pawn, 0, 0, 0, 0, -pawn, -rook};
+const int startingBoard[8][8] = {rook, knight, bishop, queen, king, bishop, knight, rook,
+                                  pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
+                                  0, 0, 0, -knight, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0,
+                                  -pawn, -pawn, -pawn, -pawn, -pawn, -pawn, -pawn, -pawn,
+                                  -rook, -knight, -bishop, -queen, -king, -bishop, -knight, -rook};
 
 void newGame(){ // Sets up the board to the default position
     for(int i = 0; i < 8; i++){
@@ -56,7 +47,7 @@ void printScreen(int board[8][8]){
     // Uppercase is white and Lowercase is black
     for(int i = 7; i > -1; i--){
         for(int j = 0; j < 8; j++){
-            switch(board[i][j]){
+            switch(board[j][i]){
                 case 0:
                     piece = '-';
                     break;
@@ -110,18 +101,22 @@ int main() {
 
     int newRank;
     int newFile;
-
     std::cout << board[1][3] << "\n";
-
     std::cout << "What piece do you wanna move?: ";
     std::cin >> newRank;
     std::cin >> newFile;
 
-    pieces::pawn(board, newRank, newFile, 'w');
-
-
-
+    pieces::pawn(board, newRank, newFile, 'b');
     printScreen(board);
+
+    ////////////ROOK TEST////////////////
+    std::cout << "What piece do you wanna move?: ";
+    std::cin >> newRank;
+    std::cin >> newFile;
+
+    pieces::rook(board, newRank, newFile, 'b');
+    printScreen(board);
+
 
 
     return 0;

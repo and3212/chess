@@ -1,2 +1,2 @@
 guist-documentation
-pcb/ linguist-documentation=false
+pcb/*/*.* linguist-documentation=false

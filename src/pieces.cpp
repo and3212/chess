@@ -3,6 +3,7 @@
  * Movement for each type of piece for the chess board
  */
 
+#include "debug/debugTools.hpp"
 #include "pieces.hpp"
 #include "iostream"
 
@@ -57,9 +58,14 @@ void pieces::pawn(int board[8][8], int rank, int file, char player){
         moveList(rank + (1 * move), file + -1);  // The downwards diagonal
 
 
-    std::cout << "Where would you like to move?:";
-    std::cin >> newRank;
+    char rankHolder;
+    std::cout << "Where would you like to move?: ";
+    std::cin >> rankHolder;
     std::cin >> newFile;
+
+    newRank = debugTools::charToCoords(rankHolder);
+    newFile = debugTools::intToCoords(newFile);
+
     newTile[0] = newRank;
     newTile[1] = newFile;
 
@@ -150,9 +156,13 @@ void pieces::rook(int board[8][8], int rank, int file, char player){
     int newRank;
     int newFile;
     int newTile[1];
-    std::cout << "Where would you like to move?:";
-    std::cin >> newRank;
+    char rankHolder;
+    std::cout << "Where would you like to move?: ";
+    std::cin >> rankHolder;
     std::cin >> newFile;
+    newRank = debugTools::charToCoords(rankHolder);
+    newFile = debugTools::intToCoords(newFile);
+
     newTile[0] = newRank;
     newTile[1] = newFile;
 
@@ -291,9 +301,14 @@ void pieces::knight(int board[8][8], int rank, int file, char player){
     int newFile;
     int newTile[1];
 
-    std::cout << "Where would you like to move?:";
-    std::cin >> newRank;
+    char rankHolder;
+    std::cout << "Where would you like to move?: ";
+    std::cin >> rankHolder;
     std::cin >> newFile;
+
+    newRank = debugTools::charToCoords(rankHolder);
+    newFile = debugTools::intToCoords(newFile);
+
     newTile[0] = newRank;
     newTile[1] = newFile;
 

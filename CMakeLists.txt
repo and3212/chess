@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 14)
 file(GLOB SOURCE_FILES
         "src/*.hpp"
         "src/*.cpp"
+        "src/debug/*.hpp"
+        "src/debug/*.cpp"
         )
 
 add_executable(main ${SOURCE_FILES})

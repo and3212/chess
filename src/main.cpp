@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include "pieces.hpp"
+#include "debug/debugTools.hpp"
+//TODO remove this once done debugging
 
 /* CHESS PIECES */
 const int pawn = 1;
@@ -43,6 +45,7 @@ void newGame(){ // Sets up the board to the default position
 // Prints out the current layout of the board
 void printScreen(int board[8][8]){
     char piece;
+    std::cout << "   --------------------------\n";
 
     // Uppercase is white and Lowercase is black
     for(int i = 7; i > -1; i--){
@@ -88,10 +91,18 @@ void printScreen(int board[8][8]){
                     piece = 'k';
                     break;
             }
+
+            if(j == 0){
+                std::cout << 8 - i << " | ";
+            }
+
+
             std::cout << " " << piece << " ";
         }
-        std::cout <<"\n";
+        std::cout <<" |\n";
     }
+    std::cout << "   --------------------------\n";
+    std::cout << "     A  B  C  D  E  F  G  H\n";
 }
 
 
@@ -101,17 +112,25 @@ int main() {
 
     int newRank;
     int newFile;
+    char rankHolder;
     std::cout << "What piece do you wanna move?: ";
-    std::cin >> newRank;
+    std::cin >> rankHolder;
     std::cin >> newFile;
+
+    newRank = debugTools::charToCoords(rankHolder);
+    newFile = debugTools::intToCoords(newFile);
 
     pieces::pawn(board, newRank, newFile, 'b');
     printScreen(board);
 
     ////////////ROOK TEST////////////////
     std::cout << "What piece do you wanna move?: ";
-    std::cin >> newRank;
+    std::cin >> rankHolder;
     std::cin >> newFile;
+
+    newRank = debugTools::charToCoords(rankHolder);
+    newFile = debugTools::intToCoords(newFile);
+
 
     pieces::rook(board, newRank, newFile, 'b');
     printScreen(board);

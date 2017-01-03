@@ -6,6 +6,7 @@
 #include "debug/debugTools.hpp"
 #include "pieces.hpp"
 #include "iostream"
+typedef int array_type[8][8];
 
 // Initializes the list of moves and fills the spaces with '-99's
 int listOfMoves[15][15] = {{-99}};
@@ -19,7 +20,7 @@ void moveList(int rank, int file){
 }
 
 /* PAWN */
-void pieces::pawn(int board[8][8], int rank, int file, char player){
+void pieces::pawn(array_type& board, int rank, int file, char player){
     int move;
     int newFile;
     int newRank;
@@ -80,7 +81,7 @@ void pieces::pawn(int board[8][8], int rank, int file, char player){
 /* END PAWN */
 
 /* ROOK */
-void pieces::rook(int board[8][8], int rank, int file, char player){
+void pieces::rook(array_type& board, int rank, int file, char player){
 
     int move;
     // Determines the final color of the moved piece
@@ -176,7 +177,7 @@ void pieces::rook(int board[8][8], int rank, int file, char player){
 /* END ROOK */
 
 /* BISHOP */
-void pieces::bishop(int board[8][8], int rank, int file, char player){
+void pieces::bishop(array_type& board, int rank, int file, char player){
     int move;
     int newFile;
     int newRank;
@@ -251,7 +252,7 @@ void pieces::bishop(int board[8][8], int rank, int file, char player){
 /* END BISHOP */
 
 /* KNIGHT */
-void pieces::knight(int board[8][8], int rank, int file, char player){
+void pieces::knight(array_type& board, int rank, int file, char player){
     int move;
     // Determines the final color of the moved piece
     if(player == 'w')

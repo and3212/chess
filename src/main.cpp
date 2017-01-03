@@ -8,6 +8,8 @@
 #include "debug/debugTools.hpp"
 //TODO remove this once done debugging
 
+typedef int array_type[8][8];
+
 /* CHESS PIECES */
 const int pawn = 1;
 const int bishop = 2;

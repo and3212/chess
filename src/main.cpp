@@ -95,45 +95,65 @@ void printScreen(int board[8][8]){
             if(j == 0){
                 std::cout << 8 - i << " | ";
             }
-
-
             std::cout << " " << piece << " ";
         }
         std::cout <<" |\n";
     }
-    std::cout << "   --------------------------\n";
-    std::cout << "     A  B  C  D  E  F  G  H\n";
+    std::cout << "   --------------------------\n"
+              << "     A  B  C  D  E  F  G  H\n";
 }
-
 
 int main() {
     newGame();
     printScreen(board);
 
-    int newRank;
     int newFile;
-    char rankHolder;
-    std::cout << "What piece do you wanna move?: ";
-    std::cin >> rankHolder;
-    std::cin >> newFile;
+    int newRank;
+    int pieceType;
+    char color;
+    std::string coord;
 
-    newRank = debugTools::charToCoords(rankHolder);
-    newFile = debugTools::intToCoords(newFile);
+    for(int i = 1; i < 5; i++) {  //plays several moves //TODO force black and white moves to alternate, make the for loop end at checkmake
+        std::cout << "What piece do you wanna move?: ";
+        std::cin >> coord;
 
-    pieces::pawn(board, newRank, newFile, 'b');
-    printScreen(board);
+        newRank = debugTools::charGrabber(coord);
+        newFile = debugTools::intGrabber(coord);
 
-    ////////////ROOK TEST////////////////
-    std::cout << "What piece do you wanna move?: ";
-    std::cin >> rankHolder;
-    std::cin >> newFile;
+        if (board[newRank][newFile] > 0) {
+            color = 'w';
+            pieceType = board[newRank][newFile];
+        } else if (board[newRank][newFile] < 0) {
+            color = 'b';
+            pieceType = -1 * board[newRank][newFile];
+        } else {  //TODO insert catch that forces user to chose a different coordinate with a piece on it.  Not practical for mechanical use but stops bugs in computer program
+            color = 'w';
+            pieceType = board[newRank][newFile];
+        }
 
-    newRank = debugTools::charToCoords(rankHolder);
-    newFile = debugTools::intToCoords(newFile);
+        switch (pieceType) {
+            case pawn:
+                pieces::pawn(board, newRank, newFile, color);
+                break;
+            case knight:
+                pieces::knight(board, newRank, newFile, color);
+                break;
+            case bishop:
+                pieces::bishop(board, newRank, newFile, color);
+                break;
+            case rook:
+                pieces::rook(board, newRank, newFile, color);
+                break;
+            case queen:
+                pieces::pawn(board, newRank, newFile, color);  //TODO make queen method when queen move is added
+                break;
+            case king:
+                pieces::pawn(board, newRank, newFile, color);  //TODO make king method when king move is added
+                break;
+        }
 
-
-    pieces::rook(board, newRank, newFile, 'b');
-    printScreen(board);
+        printScreen(board);
+    }
 
     //TODO currently if you move the pawn at 6x0 to 4x0, the rook at 7x0 can capture the piece at 4x0 -- fix this
 

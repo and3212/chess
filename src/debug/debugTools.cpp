@@ -3,6 +3,8 @@
 //
 
 #include "debugTools.hpp"
+#include "string"
+#include "iostream"
 
 int debugTools::charToCoords(char x){
     switch(x){
@@ -48,4 +50,14 @@ char debugTools::intToChar(int x){
         case 7:
             return 'H';
     }
+}
+
+
+int debugTools::charGrabber(std::string x) {
+    return charToCoords(x.at(0));
+}
+
+int debugTools::intGrabber(std::string x){
+    int y = x.at(1) - '0';
+    return (8 - y);
 }

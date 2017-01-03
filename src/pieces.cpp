@@ -166,11 +166,6 @@ void pieces::rook(int board[8][8], int rank, int file, char player){
     newTile[0] = newRank;
     newTile[1] = newFile;
 
-    // Prints out valid spots TODO remove this once done debugging
-    for(int i = 0; i < 15; i++){
-        std::cout << listOfMoves[i][0] << ":" << listOfMoves[i][1] << "\n";
-    }
-
     // Checks if the player specified a valid move
     for(int i = 0; i < 15; i++) {
         if (newTile[0] == listOfMoves[i][0] && newTile[1] == listOfMoves[i][1]) {

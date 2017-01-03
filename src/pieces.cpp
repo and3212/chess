@@ -73,8 +73,8 @@ void pieces::pawn(array_type& board, int rank, int file, char player){
             board[rank][file] = 0;
             board[newRank][newFile] = (1 * move);
 
-     for(int i = 0; i < 16; i++)  //resets list of moves before next turn
-         for (int j = 0; j < 3; j++)
+     for(int i = 0; i < 15; i++)  //resets list of moves before next turn
+         for (int j = 0; j < 2; j++)
             listOfMoves[i][j] = -99;
 
             return; // or break?
@@ -174,8 +174,8 @@ void pieces::rook(array_type& board, int rank, int file, char player){
             board[rank][file] = 0;
             board[newRank][newFile] = (3 * move);
 
-    for(int i = 0; i < 16; i++)  //resets list of moves before next turn
-        for (int j = 0; j < 3; j++)
+    for(int i = 0; i < 15; i++)  //resets list of moves before next turn
+        for (int j = 0; j < 2; j++)
             listOfMoves[i][j] = -99;
 
             return; // or break?
@@ -255,8 +255,8 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
             board[rank][file] = 0;
             board[newRank][newFile] = (2 * move);
 
-    for(int i = 0; i < 16; i++)  //resets list of moves before next turn
-        for (int j = 0; j < 3; j++)
+    for(int i = 0; i < 15; i++)  //resets list of moves before next turn
+        for (int j = 0; j < 2; j++)
             listOfMoves[i][j] = -99;
 
             return; // or break?
@@ -325,8 +325,8 @@ void pieces::knight(array_type& board, int rank, int file, char player){
             board[rank][file] = 0;
             board[newRank][newFile] = (4 * move);
 
-    for(int i = 0; i < 16; i++)  //resets list of moves before next turn
-        for (int j = 0; j < 3; j++)
+    for(int i = 0; i < 15; i++)  //resets list of moves before next turn
+        for (int j = 0; j < 2; j++)
             listOfMoves[i][j] = -99;
 
             return; // or break?

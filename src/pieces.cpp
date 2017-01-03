@@ -247,3 +247,64 @@ void pieces::bishop(int board[8][8], int rank, int file, char player){
     }
 }
 /* END BISHOP */
+
+/* KNIGHT */
+void pieces::knight(int board[8][8], int rank, int file, char player){
+    int move;
+    // Determines the final color of the moved piece
+    if(player == 'w')
+        move = 1;
+    else
+        move = -1;
+
+    for(int i = 0; i < 4; i++){
+        int j;
+        int k;
+
+        switch(i){
+            case 0:
+                j = 2;
+                k = 1;
+                break;
+            case 1:
+                j = -2;
+                k = 1;
+                break;
+            case 2:
+                j = 1;
+                k = 2;
+                break;
+            case 3:
+                j = -1;
+                k = -2;
+                break;
+        }
+        if(board[rank + j][file + k] <= 0 && player == 'w' || board[rank + j][file + k] >= 0 && player == 'b')
+            moveList(rank + j, file + k);
+        if(board[rank - j][file - k] <= 0 && player == 'w' || board[rank - j][file - k] >= 0 && player == 'b')
+            moveList(rank - j, file - k);
+    }
+
+
+
+    int newRank;
+    int newFile;
+    int newTile[1];
+
+    std::cout << "Where would you like to move?:";
+    std::cin >> newRank;
+    std::cin >> newFile;
+    newTile[0] = newRank;
+    newTile[1] = newFile;
+
+    // Checks to see if the player specified a valid move
+    for(int i = 0; i < 10; i++){
+        if(newTile[0] == listOfMoves[i][0] && newTile[1] == listOfMoves[i][1]){
+            board[rank][file] = 0;
+            board[newRank][newFile] = (1 * move);
+            return; // or break?
+        }
+    }
+
+}
+/* END KNIGHT */

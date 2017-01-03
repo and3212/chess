@@ -12,6 +12,7 @@ public:
     static void pawn(int board[8][8], int rank, int file, char player);
     static void rook(int board[8][8], int rank, int file, char player);
     static void bishop(int board[8][8], int rank, int file, char player);
+    static void knight(int board[8][8], int rank, int file, char player);
 };
 
 

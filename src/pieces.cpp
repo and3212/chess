@@ -8,7 +8,7 @@
 #include "iostream"
 
 // Initializes the list of moves and fills the spaces with '-99's
-int listOfMoves[15][2] = {{-99}};
+int listOfMoves[15][15] = {{-99}};
 
 // Allows you to add valid positions to the listOfMoves array
 void moveList(int rank, int file){
@@ -35,16 +35,13 @@ void pieces::pawn(int board[8][8], int rank, int file, char player){
     // Moving the pawn forward
     if(board[rank + (1 * move)][file] == 0) {
         moveList(rank + (1 * move), file); // one space forward if empty
-        std::cout << "CHECK ONE" << "\n";
 
         // The initial two space jump for each player
         if (player == 'w' && rank == 1 && board[rank + 2][file] == 0) {
             moveList(rank + (2 * move), file);
-            std::cout << "CHECK TWO" << "\n";
 
         } else if (player == 'b' && rank == 6 && board[rank - 2][file] == 0) {
             moveList(rank + (2 * move), file);
-            std::cout << "CHECK TWO" << "\n";
         }
     }
 
@@ -284,9 +281,9 @@ void pieces::knight(int board[8][8], int rank, int file, char player){
                 k = -2;
                 break;
         }
-        if(board[rank + j][file + k] <= 0 && player == 'w' || board[rank + j][file + k] >= 0 && player == 'b')
+        if((board[rank + j][file + k] <= 0 && player == 'w') || (board[rank + j][file + k] >= 0 && player == 'b'))
             moveList(rank + j, file + k);
-        if(board[rank - j][file - k] <= 0 && player == 'w' || board[rank - j][file - k] >= 0 && player == 'b')
+        if((board[rank - j][file - k] <= 0 && player == 'w') || (board[rank - j][file - k] >= 0 && player == 'b'))
             moveList(rank - j, file - k);
     }
 
@@ -311,7 +308,7 @@ void pieces::knight(int board[8][8], int rank, int file, char player){
     for(int i = 0; i < 10; i++){
         if(newTile[0] == listOfMoves[i][0] && newTile[1] == listOfMoves[i][1]){
             board[rank][file] = 0;
-            board[newRank][newFile] = (1 * move);
+            board[newRank][newFile] = (4 * move);
             return; // or break?
         }
     }

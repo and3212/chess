@@ -9,7 +9,7 @@
 typedef int array_type[8][8];
 
 // Initializes the list of moves and fills the spaces with '-99's
-int listOfMoves[15][15] = {{-99}};
+int listOfMoves[15][2] = {{-99}};
 
 // Allows you to add valid positions to the listOfMoves array
 void moveList(int rank, int file){
@@ -72,6 +72,11 @@ void pieces::pawn(array_type& board, int rank, int file, char player){
         if(newTile[0] == listOfMoves[i][0] && newTile[1] == listOfMoves[i][1]){
             board[rank][file] = 0;
             board[newRank][newFile] = (1 * move);
+
+     for(int i = 0; i < 16; i++)  //resets list of moves before next turn
+         for (int j = 0; j < 3; j++)
+            listOfMoves[i][j] = -99;
+
             return; // or break?
         }
     }
@@ -89,7 +94,6 @@ void pieces::rook(array_type& board, int rank, int file, char player){
         move = 1;
     else
         move = -1;
-
 
     // Moving Right
     for(int i = 1; i < 8; i++){
@@ -169,6 +173,11 @@ void pieces::rook(array_type& board, int rank, int file, char player){
         if (newTile[0] == listOfMoves[i][0] && newTile[1] == listOfMoves[i][1]) {
             board[rank][file] = 0;
             board[newRank][newFile] = (3 * move);
+
+    for(int i = 0; i < 16; i++)  //resets list of moves before next turn
+        for (int j = 0; j < 3; j++)
+            listOfMoves[i][j] = -99;
+
             return; // or break?
         }
     }
@@ -245,6 +254,11 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
         if (newTile[0] == listOfMoves[i][0] && newTile[1] == listOfMoves[i][1]) {
             board[rank][file] = 0;
             board[newRank][newFile] = (2 * move);
+
+    for(int i = 0; i < 16; i++)  //resets list of moves before next turn
+        for (int j = 0; j < 3; j++)
+            listOfMoves[i][j] = -99;
+
             return; // or break?
         }
     }
@@ -310,6 +324,11 @@ void pieces::knight(array_type& board, int rank, int file, char player){
         if(newTile[0] == listOfMoves[i][0] && newTile[1] == listOfMoves[i][1]){
             board[rank][file] = 0;
             board[newRank][newFile] = (4 * move);
+
+    for(int i = 0; i < 16; i++)  //resets list of moves before next turn
+        for (int j = 0; j < 3; j++)
+            listOfMoves[i][j] = -99;
+
             return; // or break?
         }
     }

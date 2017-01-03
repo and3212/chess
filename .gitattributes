@@ -1,2 +1,2 @@
-project-docs/* linguist-documentation
-pcb/*/*.* linguist-documentation=false
+pcb/* linguist-documentation
+/*/*.* linguist-documentation=false

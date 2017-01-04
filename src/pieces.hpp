@@ -13,7 +13,8 @@ public:
     static void rook(array_type& board, int rank, int file, char player);
     static void bishop(array_type& board, int rank, int file, char player);
     static void knight(array_type& board, int rank, int file, char player);
+    static void queen(array_type& board, int rank, int file, char player);
+    static void king(array_type& board, int rank, int file, char player);
 };
-
 
 #endif //CHESS_PIECES_HPP

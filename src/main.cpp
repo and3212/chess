@@ -105,6 +105,129 @@ void printScreen(int board[8][8]){
               << "     A  B  C  D  E  F  G  H\n";
 }
 
+bool isInCheck(char color){
+    int kingRank;
+    int kingFile;
+
+    for(int i = 7; i > -1; i--) {
+        for (int j = 0; j < 8; j++) {
+            if (color == 'w' && board[j][i] == king ||
+                (color == 'b' && board[j][i] == -king)){
+                kingRank = j;
+                kingFile = i;
+            }
+        }
+    }
+
+            // Checking Right
+            for(int i = 1; i < 8; i++){
+                if(kingRank + i > 7)
+                    break;
+
+                if(color == 'w' && board[kingRank + i][kingFile] == -rook ||  //check for white
+                   (color == 'w' && board[kingRank + i][kingFile] == -queen) ||  //check for white
+                   (color == 'b' && board[kingRank + i][kingFile] == rook) ||  //check for black
+                   (color == 'b' && board[kingRank + i][kingFile] == queen)){ //check for black
+                    return true;
+                }
+            }
+
+            // Moving Left
+            for(int i = 1; i < 8; i++) {
+                if (kingRank - i < 0)
+                    break;
+
+                if (color == 'w' && board[kingRank - i][kingFile] == -rook ||  //check for white
+                    (color == 'w' && board[kingRank - i][kingFile] == -queen) ||  //check for white
+                    (color == 'b' && board[kingRank - i][kingFile] == rook) ||  //check for black
+                    (color == 'b' && board[kingRank - i][kingFile] == queen)) { //check for black
+                    return true;
+                }
+            }
+
+            // Moving Up
+            for(int i = 1; i < 8; i++){
+                if(kingFile + i > 7)
+                    break;
+
+                if (color == 'w' && board[kingRank][kingFile + i] == -rook ||  //check for white
+                    (color == 'w' && board[kingRank][kingFile + i] == -queen) ||  //check for white
+                    (color == 'b' && board[kingRank][kingFile + i] == rook) ||  //check for black
+                    (color == 'b' && board[kingRank][kingFile + i] == queen)) { //check for black
+                    return true;
+                }
+            }
+
+            // Moving Down
+            for(int i = 1; i < 8; i++){
+                if(kingFile - 1 < 0)
+                    break;
+
+                if (color == 'w' && board[kingRank][kingFile - i] == -rook ||  //check for white
+                    (color == 'w' && board[kingRank][kingFile - i] == -queen) ||  //check for white
+                    (color == 'b' && board[kingRank][kingFile - i] == rook) ||  //check for black
+                    (color == 'b' && board[kingRank][kingFile - i] == queen)) { //check for black
+                    return true;
+                }
+            }
+
+            // Moving up-right
+            for(int i = 1; i < 8; i++){
+                if(kingRank + i > 7 || kingFile + i > 7)
+                    break;
+
+                if (color == 'w' && board[kingRank + i][kingFile + i] == -bishop ||  //check for white
+                    (color == 'w' && board[kingRank + i][kingFile + i] == -queen) ||  //check for white
+                    (color == 'b' && board[kingRank + i][kingFile + i] == bishop) ||  //check for black
+                    (color == 'b' && board[kingRank + i][kingFile + i] == queen)) { //check for black
+                    return true;
+                }
+            }
+
+            // Moving up-left
+            for(int i = 1; i < 8; i++){
+                if(kingRank + i > 7 || kingFile - i < 0)
+                    break;
+
+                if (color == 'w' && board[kingRank + i][kingFile - i] == -bishop ||  //check for white
+                    (color == 'w' && board[kingRank + i][kingFile - i] == -queen) ||  //check for white
+                    (color == 'b' && board[kingRank + i][kingFile - i] == bishop) ||  //check for black
+                    (color == 'b' && board[kingRank + i][kingFile - i] == queen)) { //check for black
+                    return true;
+                }
+            }
+
+            // Moving down-right
+            for(int i = 1; i < 8; i++){
+                if(kingRank - i < 0 || kingFile + i > 7)
+                    break;
+
+                if (color == 'w' && board[kingRank - i][kingFile + i] == -bishop ||  //check for white
+                    (color == 'w' && board[kingRank - i][kingFile + i] == -queen) ||  //check for white
+                    (color == 'b' && board[kingRank - i][kingFile + i] == bishop) ||  //check for black
+                    (color == 'b' && board[kingRank - i][kingFile + i] == queen)) { //check for black
+                    return true;
+                }
+            }
+
+            // Moving down-left
+            for(int i = 1; i < 8; i++) {
+                if((kingRank - i) < 0 || (kingFile - i) < 0)
+                    break;
+
+                if (color == 'w' && board[kingRank - i][kingFile - i] == -bishop ||  //check for white
+                    (color == 'w' && board[kingRank - i][kingFile - i] == -queen) ||  //check for white
+                    (color == 'b' && board[kingRank - i][kingFile - i] == bishop) ||  //check for black
+                    (color == 'b' && board[kingRank - i][kingFile - i] == queen)) { //check for black
+                    return true;
+                }
+            }
+
+    //TODO make check for pawns work can't use same thing cause they have to be one away
+
+            return false;
+}
+
 int main() {
     newGame();
     printScreen(board);
@@ -116,21 +239,38 @@ int main() {
     std::string coord;
 
     for(int i = 1; i < 10; i++) {  //plays several moves //TODO force black and white moves to alternate, make the for loop end at checkmake
+
+
         std::cout << "What piece do you wanna move?: ";
         std::cin >> coord;
 
         newRank = debugTools::charGrabber(coord);
         newFile = debugTools::intGrabber(coord);
 
-        if (board[newRank][newFile] > 0) {
+        if(i%2 == 1) {
             color = 'w';
+            while (board[newRank][newFile] <= 0) {
+                if (isInCheck(color))
+                    std::cout << "It is white's move select a white piece: ";
+                else
+                    std::cout << "White is in check, select a piece to move out of check: ";
+                std::cin >> coord;
+
+                newRank = debugTools::charGrabber(coord);
+                newFile = debugTools::intGrabber(coord);
+            }
             pieceType = board[newRank][newFile];
-        } else if (board[newRank][newFile] < 0) {
+        }
+        else {
+            while (board[newRank][newFile] >= 0) {
+                std::cout << "It is blacks's move select a black piece: ";
+                std::cin >> coord;
+
+                newRank = debugTools::charGrabber(coord);
+                newFile = debugTools::intGrabber(coord);
+            }
             color = 'b';
             pieceType = -1 * board[newRank][newFile];
-        } else {  //TODO insert catch that forces user to chose a different coordinate with a piece on it.  Not practical for mechanical use but stops bugs in computer program
-            color = 'w';
-            pieceType = board[newRank][newFile];
         }
 
         switch (pieceType) {

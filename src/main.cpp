@@ -120,35 +120,51 @@ bool isInCheck(char color){
     }
 
             // Checking Right
-            for(int i = 1; i < 8; i++){
+    int i = 1;
+            while(i < 8){
                 if(kingRank + i > 7)
                     break;
 
-                if(color == 'w' && board[kingRank + i][kingFile] == -rook ||  //check for white
+                if(board[kingRank + i][kingFile] == 0)
+                    i++;
+
+                else if(color == 'w' && board[kingRank + i][kingFile] == -rook ||  //check for white
                    (color == 'w' && board[kingRank + i][kingFile] == -queen) ||  //check for white
                    (color == 'b' && board[kingRank + i][kingFile] == rook) ||  //check for black
                    (color == 'b' && board[kingRank + i][kingFile] == queen)){ //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
             // Moving Left
-            for(int i = 1; i < 8; i++) {
+    i = 1;
+            while(i < 8){
                 if (kingRank - i < 0)
                     break;
 
-                if (color == 'w' && board[kingRank - i][kingFile] == -rook ||  //check for white
+                if(board[kingRank - i][kingFile] == 0)
+                    i++;
+
+                else if (color == 'w' && board[kingRank - i][kingFile] == -rook ||  //check for white
                     (color == 'w' && board[kingRank - i][kingFile] == -queen) ||  //check for white
                     (color == 'b' && board[kingRank - i][kingFile] == rook) ||  //check for black
                     (color == 'b' && board[kingRank - i][kingFile] == queen)) { //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
             // Moving Up
-            for(int i = 1; i < 8; i++){
+    i = 1;
+            while(i < 8){
                 if(kingFile + i > 7)
                     break;
+
+                if(board[kingRank][kingFile + i] == 0)
+                    i++;
 
                 if (color == 'w' && board[kingRank][kingFile + i] == -rook ||  //check for white
                     (color == 'w' && board[kingRank][kingFile + i] == -queen) ||  //check for white
@@ -156,12 +172,18 @@ bool isInCheck(char color){
                     (color == 'b' && board[kingRank][kingFile + i] == queen)) { //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
             // Moving Down
-            for(int i = 1; i < 8; i++){
+    i = 1;
+            while(i < 8){
                 if(kingFile - 1 < 0)
                     break;
+
+                if(board[kingRank][kingFile - i] == 0)
+                    i++;
 
                 if (color == 'w' && board[kingRank][kingFile - i] == -rook ||  //check for white
                     (color == 'w' && board[kingRank][kingFile - i] == -queen) ||  //check for white
@@ -169,12 +191,18 @@ bool isInCheck(char color){
                     (color == 'b' && board[kingRank][kingFile - i] == queen)) { //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
             // Moving up-right
-            for(int i = 1; i < 8; i++){
+    i = 1;
+            while(i < 8){
                 if(kingRank + i > 7 || kingFile + i > 7)
                     break;
+
+                if(board[kingRank + i][kingFile + i] == 0)
+                    i++;
 
                 if (color == 'w' && board[kingRank + i][kingFile + i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank + i][kingFile + i] == -queen) ||  //check for white
@@ -182,12 +210,18 @@ bool isInCheck(char color){
                     (color == 'b' && board[kingRank + i][kingFile + i] == queen)) { //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
             // Moving up-left
-            for(int i = 1; i < 8; i++){
+    i = 1;
+            while(i < 8){
                 if(kingRank + i > 7 || kingFile - i < 0)
                     break;
+
+                if(board[kingRank + i][kingFile - i] == 0)
+                    i++;
 
                 if (color == 'w' && board[kingRank + i][kingFile - i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank + i][kingFile - i] == -queen) ||  //check for white
@@ -195,12 +229,18 @@ bool isInCheck(char color){
                     (color == 'b' && board[kingRank + i][kingFile - i] == queen)) { //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
             // Moving down-right
-            for(int i = 1; i < 8; i++){
+    i = 1;
+            while(i < 8){
                 if(kingRank - i < 0 || kingFile + i > 7)
                     break;
+
+                if(board[kingRank - i][kingFile + i] == 0)
+                    i++;
 
                 if (color == 'w' && board[kingRank - i][kingFile + i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank - i][kingFile + i] == -queen) ||  //check for white
@@ -208,12 +248,18 @@ bool isInCheck(char color){
                     (color == 'b' && board[kingRank - i][kingFile + i] == queen)) { //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
             // Moving down-left
-            for(int i = 1; i < 8; i++) {
+    i = 1;
+            while(i < 8) {
                 if((kingRank - i) < 0 || (kingFile - i) < 0)
                     break;
+
+                if(board[kingRank - i][kingFile - i] == 0)
+                    i++;
 
                 if (color == 'w' && board[kingRank - i][kingFile - i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank - i][kingFile - i] == -queen) ||  //check for white
@@ -221,6 +267,8 @@ bool isInCheck(char color){
                     (color == 'b' && board[kingRank - i][kingFile - i] == queen)) { //check for black
                     return true;
                 }
+                else
+                    break;
             }
 
     //TODO make check for pawns work can't use same thing cause they have to be one away
@@ -241,19 +289,20 @@ int main() {
     for(int i = 1; i < 10; i++) {  //plays several moves //TODO force black and white moves to alternate, make the for loop end at checkmake
 
 
-        std::cout << "What piece do you wanna move?: ";
-        std::cin >> coord;
-
-        newRank = debugTools::charGrabber(coord);
-        newFile = debugTools::intGrabber(coord);
-
         if(i%2 == 1) {
             color = 'w';
+            if (!isInCheck(color))
+                std::cout << "It is white's move select a white piece: ";
+            else
+                std::cout << "White is in check, select a piece to move out of check: ";
+
+            std::cin >> coord;
+
+            newRank = debugTools::charGrabber(coord);
+            newFile = debugTools::intGrabber(coord);
+
             while (board[newRank][newFile] <= 0) {
-                if (isInCheck(color))
-                    std::cout << "It is white's move select a white piece: ";
-                else
-                    std::cout << "White is in check, select a piece to move out of check: ";
+                std::cout << "It is white's move select a white piece: ";
                 std::cin >> coord;
 
                 newRank = debugTools::charGrabber(coord);
@@ -262,14 +311,24 @@ int main() {
             pieceType = board[newRank][newFile];
         }
         else {
+            color = 'b';
+            if (!isInCheck(color))
+                std::cout << "It is black's move select a black piece: ";
+            else
+                std::cout << "Black is in check, select a piece to move out of check: ";
+
+            std::cin >> coord;
+
+            newRank = debugTools::charGrabber(coord);
+            newFile = debugTools::intGrabber(coord);
+
             while (board[newRank][newFile] >= 0) {
-                std::cout << "It is blacks's move select a black piece: ";
+                std::cout << "It is black's move select a black piece: ";
                 std::cin >> coord;
 
                 newRank = debugTools::charGrabber(coord);
                 newFile = debugTools::intGrabber(coord);
             }
-            color = 'b';
             pieceType = -1 * board[newRank][newFile];
         }
 

@@ -115,7 +115,7 @@ int main() {
     char color;
     std::string coord;
 
-    for(int i = 1; i < 5; i++) {  //plays several moves //TODO force black and white moves to alternate, make the for loop end at checkmake
+    for(int i = 1; i < 10; i++) {  //plays several moves //TODO force black and white moves to alternate, make the for loop end at checkmake
         std::cout << "What piece do you wanna move?: ";
         std::cin >> coord;
 
@@ -147,10 +147,10 @@ int main() {
                 pieces::rook(board, newRank, newFile, color);
                 break;
             case queen:
-                pieces::pawn(board, newRank, newFile, color);  //TODO make queen method when queen move is added
+                pieces::queen(board, newRank, newFile, color);
                 break;
             case king:
-                pieces::pawn(board, newRank, newFile, color);  //TODO make king method when king move is added
+                pieces::king(board, newRank, newFile, color);
                 break;
         }
 

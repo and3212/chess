@@ -12,11 +12,10 @@ typedef int array_type[8][8];
 int listOfMoves[15][2] = {{-99}};
 
 // Allows you to add valid positions to the listOfMoves array
-void moveList(int rank, int file){
-    static int i = 0;
-    listOfMoves[i][0] = rank;
-    listOfMoves[i][1] = file;
-    i++;
+void moveList(int rank, int file, int index){
+    listOfMoves[index][0] = rank;
+    listOfMoves[index][1] = file;
+    listOfMoves[index][2] = -99;
 }
 
 /* PAWN */
@@ -35,25 +34,25 @@ void pieces::pawn(array_type& board, int rank, int file, char player){
 
     // Moving the pawn forward
     if(board[rank + (1 * move)][file] == 0) {
-        moveList(rank + (1 * move), file); // one space forward if empty
+        moveList(rank + (1 * move), file,1); // one space forward if empty
 
         // The initial two space jump for each player
         if (player == 'w' && rank == 1 && board[rank + 2][file] == 0) {
-            moveList(rank + (2 * move), file);
+            moveList(rank + (2 * move), file,2);
 
         } else if (player == 'b' && rank == 6 && board[rank - 2][file] == 0) {
-            moveList(rank + (2 * move), file);
+            moveList(rank + (2 * move), file,2);
         }
     }
 
     // Capturing a piece with the pawn
     if((player == 'w' && board[rank + (1 * move)][file + 1] < 0) ||
        (player == 'b' && board[rank + (1 * move)][file + 1] > 0))
-        moveList(rank + (1 * move), file + 1);   // The upwards diagonal
+        moveList(rank + (1 * move), file + 1,3);   // The upwards diagonal
 
     if((player == 'w' && board[rank + (1 * move)][file + -1] < 0) ||
        (player == 'b' && board[rank + (1 * move)][file + -1] > 0))
-        moveList(rank + (1 * move), file + -1);  // The downwards diagonal
+        moveList(rank + (1 * move), file + -1,4);  // The downwards diagonal
 
 
     char rankHolder;
@@ -88,12 +87,15 @@ void pieces::pawn(array_type& board, int rank, int file, char player){
 /* ROOK */
 void pieces::rook(array_type& board, int rank, int file, char player){
 
+    int index = 0; //counts index of move list to place potential moves
     int move;
     // Determines the final color of the moved piece
     if(player == 'w')
         move = 1;
     else
         move = -1;
+
+    std::cout << move;
 
     // Moving Right
     for(int i = 1; i < 8; i++){
@@ -103,7 +105,8 @@ void pieces::rook(array_type& board, int rank, int file, char player){
         if(board[rank + i][file] == 0 ||                     // Empty space
            (player == 'w' && board[rank + i][file] < 0) ||   // Enemy for white
            (player == 'b' && board[rank + i][file] > 0)){    // Enemy for black
-            moveList(rank + i, file);
+            moveList(rank + i, file, index);
+            index++;
         }
         else{
             break;
@@ -118,7 +121,8 @@ void pieces::rook(array_type& board, int rank, int file, char player){
         if(board[rank - i][file] == 0 ||                     // Empty space
            (player == 'w' && board[rank - i][file] < 0) ||   // Enemy for white
            (player == 'b' && board[rank - i][file] > 0)){    // Enemy for black
-            moveList(rank - i, file);
+            moveList(rank - i, file, index);
+            index++;
         }
         else{
             break;
@@ -133,7 +137,8 @@ void pieces::rook(array_type& board, int rank, int file, char player){
         if(board[rank][file + i] == 0 ||                     // Empty space
            (player == 'w' && board[rank][file + i] < 0) ||   // Enemy for white
            (player == 'b' && board[rank][file + i] > 0)){    // Enemy for black
-            moveList(rank, file + i);
+            moveList(rank, file + i, index);
+            index++;
         }
         else{
             break;
@@ -148,7 +153,8 @@ void pieces::rook(array_type& board, int rank, int file, char player){
         if(board[rank][file - i] == 0 ||                    // Empty space
            (player == 'w' && board[rank][file - i] < 0) ||   // Enemy for white
            (player == 'b' && board[rank][file - i] > 0)){    // Enemy for black
-            moveList(rank, file - i);
+            moveList(rank, file - i,index);
+            index++;
         }
         else{
             break;
@@ -191,6 +197,12 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
     int newFile;
     int newRank;
     int newTile[1];
+    int index = 0; //counts index of move list to place potential moves
+
+    for(int i = 0; i < 15; i++) {
+        std::cout << listOfMoves[i][0] << " " << listOfMoves[i][1] << " " << listOfMoves[i][2] << "||";
+    }
+    std::cout << "\n";
 
     // Determines the direction the piece moves
     if(player == 'w')
@@ -200,11 +212,18 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
 
     // Moving up-right
     for(int i = 1; i < 8; i++){
+        if(rank + i > 7 || file + i > 7)
+            break;
 
-        if(board[rank + i][file + i] == 0 ||                    // spot is empty
-           (player == 'w' && board[rank + i][file + i] < 0) ||  // spot is an enemy for white
-           (player = 'b' && board[rank + i][file + i] > 0)){    // spot is an enemy for black
-                moveList(rank + i, file + i);
+        if(board[rank + i][file + i] == 0 ||                        // spot is empty
+           (player == 'w' && board[(rank + i)][(file + i)] < 0) ||  // spot is an enemy for white
+           (player == 'b' && board[(rank + i)][(file + i)] > 0)){    // spot is an enemy for black
+                moveList((rank + i), (file + i), index);
+            for(int j = 0; j < 15; j++) {
+                std::cout << listOfMoves[j][0] << " " << listOfMoves[j][1] << " " << listOfMoves[j][2] << "||" ;
+            }
+            std::cout << "\n";
+            index++;
         }
         else{
             break;
@@ -212,21 +231,38 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
     }
     // Moving up-left
     for(int i = 1; i < 8; i++){
+        if(rank + i > 7 || file - i < 0)
+            break;
+
         if(board[rank + i][file - i] == 0 ||                    // spot is empty
            (player == 'w' && board[rank + i][file - i] < 0) ||  // spot is an enemy for white
-           (player = 'b' && board[rank + i][file - i] > 0)){    // spot is an enemy for black
-            moveList(rank + i, file - i);
+           (player == 'b' && board[rank + i][file - i] > 0)){    // spot is an enemy for black
+            moveList(rank + i, file - i, index);
+            for(int j = 0; j < 15; j++) {
+                std::cout << listOfMoves[j][0] << " " << listOfMoves[j][1] << " " << listOfMoves[j][2] << "||";
+            }
+            std::cout << "\n";
+            index++;
         }
         else{
             break;
         }
+
     }
     // Moving down-right
     for(int i = 1; i < 8; i++){
+        if(rank - i < 0 || file + i > 7)
+            break;
+
         if(board[rank - i][file + i] == 0 ||                    // spot is empty
            (player == 'w' && board[rank - i][file + i] < 0) ||  // spot is an enemy for white
-           (player = 'b' && board[rank - i][file + i] > 0)){    // spot is an enemy for black
-            moveList(rank - i, file + i);
+           (player == 'b' && board[rank - i][file + i] > 0)){    // spot is an enemy for black
+            moveList(rank - i, file + i,index);
+            for(int j = 0; j < 15; j++) {
+                std::cout << listOfMoves[j][0] << " " << listOfMoves[j][1] << " " << listOfMoves[j][2] << "||";
+            }
+            std::cout << "\n";
+            index++;
         }
         else{
             break;
@@ -234,13 +270,24 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
     }
     // Moving down-left
     for(int i = 1; i < 8; i++) {
-        if (board[rank - i][file - i] == 0 ||                    // spot is empty
-            (player == 'w' && board[rank - i][file - i] < 0) ||  // spot is an enemy for white
-            (player = 'b' && board[rank - i][file - i] > 0)) {    // spot is an enemy for black
-            moveList(rank - i, file - i);
+        if((rank - i) < 0 || (file - i) < 0)
+            break;
+        if (board[(rank - i)][(file - i)] == 0 ||                    // spot is empty
+            (player == 'w' && board[(rank - i)][(file - i)] < 0) ||  // spot is an enemy for white
+            (player == 'b' && board[(rank - i)][(file - i)] > 0)) {    // spot is an enemy for black
+            moveList((rank - i), (file - i), index);
+            for(int j = 0; j < 15; j++) {
+                std::cout << listOfMoves[j][0] << " " << listOfMoves[j][1] << " " << listOfMoves[j][2] << "||";
+            }
+            std::cout << "\n";
+            index++;
         } else {
             break;
         }
+    }
+
+    for(int j = 0; j < 15; j++) {
+        std::cout << listOfMoves[j][0] << " " << listOfMoves[j][1] << " " << listOfMoves[j][2] << "||";
     }
 
     std::cout << "Where would you like to move?:";
@@ -267,6 +314,8 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
 
 /* KNIGHT */
 void pieces::knight(array_type& board, int rank, int file, char player){
+
+    int index = 0;
     int move;
     // Determines the final color of the moved piece
     if(player == 'w')
@@ -297,9 +346,9 @@ void pieces::knight(array_type& board, int rank, int file, char player){
                 break;
         }
         if((board[rank + j][file + k] <= 0 && player == 'w') || (board[rank + j][file + k] >= 0 && player == 'b'))
-            moveList(rank + j, file + k);
+            moveList(rank + j, file + k, index);
         if((board[rank - j][file - k] <= 0 && player == 'w') || (board[rank - j][file - k] >= 0 && player == 'b'))
-            moveList(rank - j, file - k);
+            moveList(rank - j, file - k, index);
     }
 
 

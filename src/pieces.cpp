@@ -210,7 +210,7 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
         if(board[rank + i][file + i] == 0 ||                        // spot is empty
            (player == 'w' && board[(rank + i)][(file + i)] < 0) ||  // spot is an enemy for white
            (player == 'b' && board[(rank + i)][(file + i)] > 0)){    // spot is an enemy for black
-            moveList((rank + i), (file + i), index);
+                moveList((rank + i), (file + i), index);
             index++;
         }
         else{
@@ -261,7 +261,6 @@ void pieces::bishop(array_type& board, int rank, int file, char player){
             break;
         }
     }
-
 
     int newRank;
     int newFile;
@@ -321,14 +320,18 @@ void pieces::knight(array_type& board, int rank, int file, char player){
                 k = 2;
                 break;
             case 3:
-                j = -1;
+                j = 1;
                 k = -2;
                 break;
         }
-        if((board[rank + j][file + k] <= 0 && player == 'w') || (board[rank + j][file + k] >= 0 && player == 'b'))
+        if((board[rank + j][file + k] <= 0 && player == 'w') || (board[rank + j][file + k] >= 0 && player == 'b')) {
             moveList(rank + j, file + k, index);
-        if((board[rank - j][file - k] <= 0 && player == 'w') || (board[rank - j][file - k] >= 0 && player == 'b'))
+            index++;
+        }
+        if((board[rank - j][file - k] <= 0 && player == 'w') || (board[rank - j][file - k] >= 0 && player == 'b')) {
             moveList(rank - j, file - k, index);
+            index++;
+        }
     }
 
 

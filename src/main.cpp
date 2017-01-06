@@ -29,7 +29,7 @@ int tieCounter = 50;    //TODO add a counter where if a pawn isn't moved / a pie
 // Positives are 'white' and negatives are 'black'
 const int startingBoard[8][8] = {rook, knight, bishop, queen, king, bishop, knight, rook,
                                   pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
-                                  0, 0, 0, -knight, 0, 0, 0, 0, //TODO remove the -knight from here once done debugging
+                                  0, 0, 0, 0, 0, 0, 0, 0, //TODO remove the -knight from here once done debugging
                                   0, 0, 0, 0, 0, 0, 0, 0,
                                   0, 0, 0, 0, 0, 0, 0, 0,
                                   0, 0, 0, 0, 0, 0, 0, 0,
@@ -138,7 +138,7 @@ bool isInCheck(char color){
                     break;
             }
 
-            // Moving Left
+            // Checking Left
     i = 1;
             while(i < 8){
                 if (kingRank - i < 0)
@@ -157,7 +157,7 @@ bool isInCheck(char color){
                     break;
             }
 
-            // Moving Up
+            // Checking Up
     i = 1;
             while(i < 8){
                 if(kingFile + i > 7)
@@ -176,7 +176,7 @@ bool isInCheck(char color){
                     break;
             }
 
-            // Moving Down
+            // Checking Down
     i = 1;
             while(i < 8){
                 if(kingFile - 1 < 0)
@@ -195,7 +195,7 @@ bool isInCheck(char color){
                     break;
             }
 
-            // Moving up-right
+            // Checking up-right
     i = 1;
             while(i < 8){
                 if(kingRank + i > 7 || kingFile + i > 7)
@@ -206,6 +206,7 @@ bool isInCheck(char color){
 
                 if (color == 'w' && board[kingRank + i][kingFile + i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank + i][kingFile + i] == -queen) ||  //check for white
+                    (color == 'w' && board[kingRank + i][kingFile + i] == -pawn && i == 1) ||  //check for white
                     (color == 'b' && board[kingRank + i][kingFile + i] == bishop) ||  //check for black
                     (color == 'b' && board[kingRank + i][kingFile + i] == queen)) { //check for black
                     return true;
@@ -214,7 +215,7 @@ bool isInCheck(char color){
                     break;
             }
 
-            // Moving up-left
+            // Checking up-left
     i = 1;
             while(i < 8){
                 if(kingRank + i > 7 || kingFile - i < 0)
@@ -226,14 +227,15 @@ bool isInCheck(char color){
                 if (color == 'w' && board[kingRank + i][kingFile - i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank + i][kingFile - i] == -queen) ||  //check for white
                     (color == 'b' && board[kingRank + i][kingFile - i] == bishop) ||  //check for black
-                    (color == 'b' && board[kingRank + i][kingFile - i] == queen)) { //check for black
+                    (color == 'b' && board[kingRank + i][kingFile - i] == queen) ||   //check for black
+                    (color == 'b' && board[kingRank + i][kingFile - i] == pawn && i == 1)) { //check for black
                     return true;
                 }
                 else
                     break;
             }
 
-            // Moving down-right
+            // Checking down-right
     i = 1;
             while(i < 8){
                 if(kingRank - i < 0 || kingFile + i > 7)
@@ -244,6 +246,7 @@ bool isInCheck(char color){
 
                 if (color == 'w' && board[kingRank - i][kingFile + i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank - i][kingFile + i] == -queen) ||  //check for white
+                    (color == 'w' && board[kingRank - i][kingFile + i] == -pawn && i == 1) ||  //check for white
                     (color == 'b' && board[kingRank - i][kingFile + i] == bishop) ||  //check for black
                     (color == 'b' && board[kingRank - i][kingFile + i] == queen)) { //check for black
                     return true;
@@ -252,7 +255,7 @@ bool isInCheck(char color){
                     break;
             }
 
-            // Moving down-left
+            // Checking down-left
     i = 1;
             while(i < 8) {
                 if((kingRank - i) < 0 || (kingFile - i) < 0)
@@ -264,13 +267,44 @@ bool isInCheck(char color){
                 if (color == 'w' && board[kingRank - i][kingFile - i] == -bishop ||  //check for white
                     (color == 'w' && board[kingRank - i][kingFile - i] == -queen) ||  //check for white
                     (color == 'b' && board[kingRank - i][kingFile - i] == bishop) ||  //check for black
-                    (color == 'b' && board[kingRank - i][kingFile - i] == queen)) { //check for black
+                    (color == 'b' && board[kingRank - i][kingFile - i] == queen) || //check for black
+                    (color == 'b' && board[kingRank + i][kingFile - i] == pawn && i == 1)) { //check for black
                     return true;
                 }
                 else
                     break;
             }
 
+        //checking knight
+    for(int i = 0; i < 4; i++){
+        int j;
+        int k;
+
+        switch(i){
+            case 0:
+                j = 2;
+                k = 1;
+                break;
+            case 1:
+                j = -2;
+                k = 1;
+                break;
+            case 2:
+                j = 1;
+                k = 2;
+                break;
+            case 3:
+                j = 1;
+                k = -2;
+                break;
+        }
+        if((board[kingRank + j][kingFile + k] == -knight && color == 'w') || (board[kingRank + j][kingFile + k] == knight && color == 'b')) {
+            return true;
+        }
+        if((board[kingRank - j][kingFile - k] == -knight && color == 'w') || (board[kingRank - j][kingFile - k] == knight && color == 'b')) {
+            return true;
+        }
+    }
     //TODO make check for pawns work can't use same thing cause they have to be one away
 
             return false;

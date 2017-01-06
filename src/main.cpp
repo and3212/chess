@@ -23,12 +23,13 @@ const int king = 6;
 // initializes and 8x8 board to play on
 // [rank][file] == [x][y]
 int board[8][8];
+int tempBoard[8][8];  //initializes a temporary board so that a play can be reset if an illegal move is made.
 int tieCounter = 50;    //TODO add a counter where if a pawn isn't moved / a piece isn't captured in 50 turns it is a draw
 
 // Initial setup for a new game
 // Positives are 'white' and negatives are 'black'
 const int startingBoard[8][8] = {rook, knight, bishop, queen, king, bishop, knight, rook,
-                                  pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
+                                  pawn, pawn, pawn, pawn, pawn, -pawn, pawn, pawn,
                                   0, 0, 0, 0, 0, 0, 0, 0, //TODO remove the -knight from here once done debugging
                                   0, 0, 0, 0, 0, 0, 0, 0,
                                   0, 0, 0, 0, 0, 0, 0, 0,
@@ -322,73 +323,94 @@ int main() {
 
     for(int i = 1; i < 10; i++) {  //plays several moves //TODO force black and white moves to alternate, make the for loop end at checkmake
 
+        bool replayMove = true;
+            while(replayMove) {
 
-        if(i%2 == 1) {
-            color = 'w';
-            if (!isInCheck(color))
-                std::cout << "It is white's move select a white piece: ";
-            else
-                std::cout << "White is in check, select a piece to move out of check: ";
+                for(int j = 0; j < 8; j++){
+                    for(int k = 0; k < 8; k++){
+                        tempBoard[j][k] = board[j][k];
+                    }
+                }
 
-            std::cin >> coord;
+                if (i % 2 == 1) {
+                    color = 'w';
+                    if (!isInCheck(color))
+                        std::cout << "It is white's move select a white piece: ";
+                    else
+                        std::cout << "White is in check, select a piece to move out of check: ";
 
-            newRank = debugTools::charGrabber(coord);
-            newFile = debugTools::intGrabber(coord);
+                    std::cin >> coord;
 
-            while (board[newRank][newFile] <= 0) {
-                std::cout << "It is white's move select a white piece: ";
-                std::cin >> coord;
+                    newRank = debugTools::charGrabber(coord);
+                    newFile = debugTools::intGrabber(coord);
 
-                newRank = debugTools::charGrabber(coord);
-                newFile = debugTools::intGrabber(coord);
+                    while (board[newRank][newFile] <= 0) {
+                        std::cout << "It is white's move select a white piece: ";
+                        std::cin >> coord;
+
+                        newRank = debugTools::charGrabber(coord);
+                        newFile = debugTools::intGrabber(coord);
+                    }
+                    pieceType = board[newRank][newFile];
+                } else {
+                    color = 'b';
+                    if (!isInCheck(color))
+                        std::cout << "It is black's move select a black piece: ";
+                    else
+                        std::cout << "Black is in check, select a piece to move out of check: ";
+
+                    std::cin >> coord;
+
+                    newRank = debugTools::charGrabber(coord);
+                    newFile = debugTools::intGrabber(coord);
+
+                    while (board[newRank][newFile] >= 0) {
+                        std::cout << "It is black's move select a black piece: ";
+                        std::cin >> coord;
+
+                        newRank = debugTools::charGrabber(coord);
+                        newFile = debugTools::intGrabber(coord);
+                    }
+                    pieceType = -1 * board[newRank][newFile];
+                }
+
+            switch (pieceType) {
+                case pawn:
+                    pieces::pawn(board, newRank, newFile, color);
+                    break;
+                case knight:
+                    pieces::knight(board, newRank, newFile, color);
+                    break;
+                case bishop:
+                    pieces::bishop(board, newRank, newFile, color);
+                    break;
+                case rook:
+                    pieces::rook(board, newRank, newFile, color);
+                    break;
+                case queen:
+                    pieces::queen(board, newRank, newFile, color);
+                    break;
+                case king:
+                    pieces::king(board, newRank, newFile, color);
+                    break;
             }
-            pieceType = board[newRank][newFile];
-        }
-        else {
-            color = 'b';
-            if (!isInCheck(color))
-                std::cout << "It is black's move select a black piece: ";
-            else
-                std::cout << "Black is in check, select a piece to move out of check: ";
+            if(isInCheck){
+               std::cout << "That is illegal, your king is still in check \n";
 
-            std::cin >> coord;
+                for(int j = 0; j < 8; j++){
+                    for(int k = 0; k < 8; k++){
+                        board[j][k] = tempBoard[j][k];
+                    }
+                }
 
-            newRank = debugTools::charGrabber(coord);
-            newFile = debugTools::intGrabber(coord);
-
-            while (board[newRank][newFile] >= 0) {
-                std::cout << "It is black's move select a black piece: ";
-                std::cin >> coord;
-
-                newRank = debugTools::charGrabber(coord);
-                newFile = debugTools::intGrabber(coord);
+                replayMove = true;
             }
-            pieceType = -1 * board[newRank][newFile];
+            else
+                replayMove = false;
         }
 
-        switch (pieceType) {
-            case pawn:
-                pieces::pawn(board, newRank, newFile, color);
-                break;
-            case knight:
-                pieces::knight(board, newRank, newFile, color);
-                break;
-            case bishop:
-                pieces::bishop(board, newRank, newFile, color);
-                break;
-            case rook:
-                pieces::rook(board, newRank, newFile, color);
-                break;
-            case queen:
-                pieces::queen(board, newRank, newFile, color);
-                break;
-            case king:
-                pieces::king(board, newRank, newFile, color);
-                break;
+            printScreen(board);
         }
-
-        printScreen(board);
-    }
 
     //TODO currently if you move the pawn at 6x0 to 4x0, the rook at 7x0 can capture the piece at 4x0 -- fix this
 

@@ -1,4 +1,1 @@
-pcb/* linguist-documentation
-src/* linguist-documentation
-*.* linguist-documentation=false
-/*/*.* linguist-documentation=false
+*.cpp linguist-language=Java

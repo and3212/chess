@@ -3,12 +3,9 @@ project(chess)
 
 set(CMAKE_CXX_STANDARD 14)
 
-#set(SOURCE_FILES main.cpp)
+#set(SOURCE_FILES main.c)
 file(GLOB SOURCE_FILES
-        "src/*.hpp"
-        "src/*.cpp"
-        "src/debug/*.hpp"
-        "src/debug/*.cpp"
+        "src/*.c"
         )
 
 add_executable(main ${SOURCE_FILES})

@@ -3,6 +3,6 @@
  * Controls the Steppers and enabling the magnet
  */
 
-void setupNewGame(board[8][8]) {
+void setupNewGame(int board[8][8]) {
 
 }

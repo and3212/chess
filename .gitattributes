@@ -1,9 +1,0 @@
-*.cpp linguist-language=Lua
-*.brd linguist-language=Arduino
-*.sch linguist-language=Perl
-*.jar linguist-language=Arduino
-*.java linguist-language=Python
-*.kt linguist-language=Perl
-*.js linguist-language=Haskell
-*.css linguist-language=Lua
-*.html linguist-language=C++
